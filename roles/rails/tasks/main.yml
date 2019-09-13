@@ -1,0 +1,93 @@
+- name: RVM create App gemset
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "rvm gemset create {{ deploy_app_name }}"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
+
+
+- name: RVM use default ruby {{ ruby_version}}
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "rvm --default use {{ ruby_version }}"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"  
+
+- name: Prepare Rails App - copy template database.yml
+  template:
+   src=database.yml
+   dest="/home/{{ deploy_user }}/apps/{{ deploy_app_name }}/config"
+   owner="{{ deploy_user }}"
+   group="{{ deploy_user }}"
+   mode=0600
+
+- name: Prepare Rails App - copy template secrets.yml
+  template:
+   src=secrets.yml
+   dest="/home/{{ deploy_user }}/apps/{{ deploy_app_name }}/config"
+   owner="{{ deploy_user }}"
+   group="{{ deploy_user }}"
+   mode=0600
+
+- name: Prepare Rails App install bundler
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "gem install bundler"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
+
+- name: Prepare Rails App Bundle install
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "RAILS_ENV=production bundle install"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
+
+- name: Prepare Rails App Bundle install in dir vendor/cache - for Passenger
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "RAILS_ENV=production bundle install --path vendor/cache"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"    
+
+- name: Prepare Rails App Precompile assets
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "RAILS_ENV=production rake assets:precompile"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"    
+
+- name: Prepare Rails App db setup
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "RAILS_ENV=production rake db:setup"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
+
+- name: Prepare Rails App dbcreate 
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "RAILS_ENV=production rake db:create"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
+
+- name: Prepare Rails App dbmigrate 
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "RAILS_ENV=production rake db:migrate"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
+
+- name: Prepare Rails App tmp clear
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "rake tmp:clear"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
+
+- name: Prepare Rails App log clear
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "rake log:clear"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"

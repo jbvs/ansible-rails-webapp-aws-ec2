@@ -1,0 +1,23 @@
+[Unit]
+Description=Puma HTTP Server
+After=network.target
+
+# Uncomment for socket activation (see below)
+Requires=puma.socket
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+
+# Preferably configure a non-privileged user
+User=deploy
+Group=deploy
+
+WorkingDirectory=/home/deploy/apps/webapp
+
+ExecStart=/home/deploy/.rvm/bin/rvm /home/deploy/apps/webapp do /home/deploy/apps/webapp/sbin/puma -C /home/deploy/apps/webapp/config/puma.rb -b tcp://0.0.0.0:3000 -e production
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

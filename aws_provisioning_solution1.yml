@@ -1,0 +1,50 @@
+---
+- hosts: web
+  connection: local 
+  gather_facts: False
+  vars:
+    instance_type: "{{ aws_instance_type }}"
+    security_group: "{{ aws_security_group }}"
+    image: "{{ aws_image }}" 
+    keypair: "{{ key_pair_aws }}"
+    region: "{{ aws_region }}"
+    count: 1
+  vars_files:
+    - aws_keys.yml
+  roles:
+    - aws
+
+- hosts: webservers
+  remote_user: ubuntu
+  become: yes
+  gather_facts: no
+  roles:
+    - prepare_basic
+    - mysql_and_others
+    - security
+    - deploy_app
+
+- name: Install ruby and rvm
+  hosts: webservers
+  remote_user: ubuntu
+  become: yes
+  roles:
+    - { role: rvm.ruby,
+        tags: ruby,
+        become: yes,
+        become_user: "{{ deploy_user }}",
+        rvm1_rubies: ["{{ ruby_version }}"],
+        rvm1_user: "{{ deploy_user }}"
+      }
+
+# continue...
+- hosts: webservers
+  remote_user: "{{ deploy_uer }}"
+  become: yes
+  gather_facts: no
+  roles:
+    - rails
+    - passenger_nginx
+
+
+

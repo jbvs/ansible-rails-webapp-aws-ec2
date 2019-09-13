@@ -1,0 +1,20 @@
+[Unit]
+Description=Puma HTTP Server Accept Sockets
+
+[Socket]
+SocketUser=deploy
+SocketGroup=deploy
+#http
+ListenStream=0.0.0.0:3000
+#https
+#ListenStream=0.0.0.0:3001
+
+ListenStream=/home/deploy/apps/webapp/tmp/puma.sock
+
+# Socket options matching Puma defaults
+NoDelay=true
+ReusePort=true
+Backlog=1024
+
+[Install]
+WantedBy=sockets.target

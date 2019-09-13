@@ -1,0 +1,78 @@
+#passenger and nginx configs
+- name: Add an apt key
+  apt_key:
+   keyserver: keyserver.ubuntu.com
+   id: 561F9B9CAC40B2F7
+
+- name: Install dependency packages for Passenger
+  apt: name={{ packages }} state=latest update_cache=yes force_apt_get=yes
+  vars:
+   packages: ['apt-transport-https','ca-certificates']
+
+- name: Add Passenger repository
+  apt_repository:
+   repo: deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main
+   state: present
+
+- name: Run apt-get update
+  apt:
+   update_cache: yes
+   force_apt_get: yes
+
+- name: Install Passenger and Nginx module
+  apt: name={{ packages }} state=latest update_cache=yes force_apt_get=yes
+  vars:
+   packages: ['libnginx-mod-http-passenger']
+
+- name: Check if nginx file exists...
+  stat: 
+   path: /etc/nginx/modules-enabled/50-mod-http-passenger.conf
+  register: nginx_exists
+
+- name: Remove nginx default symlink
+  file:
+   path: /etc/nginx/sites-enabled/default
+   state: absent
+
+- name: Create symlink if file does not exists and create...
+  file:
+   path: /usr/share/nginx/modules-available/mod-http-passenger.load
+   dest: /etc/nginx/modules-enabled/50-mod-http-passenger.conf
+   state: link
+  when: nginx_exists.stat.exists == False
+
+- name: Copy nginx config template file
+  template:
+   src=webapp-passenger.conf
+   dest="/etc/nginx/sites-available"
+   owner=root
+   group=root
+   mode=0750
+
+- name: Create symlink inside sites-enabled
+  file:
+   src: /etc/nginx/sites-available/webapp-passenger.conf
+   dest: /etc/nginx/sites-enabled/webapp-passenger.conf
+   state: link
+   force: yes
+
+- name: Copy certificates to nginx - self signed public key
+  template:
+   src=nginx-selfsigned.crt
+   dest="/etc/ssl/certs"
+   owner=root
+   group=root
+   mode=0750
+   
+- name: Copy certificates to nginx - self signed private key
+  template:
+   src=nginx-selfsigned.key
+   dest="/etc/ssl/private"
+   owner=root
+   group=root
+   mode=0600
+
+- name: Reload service nginx
+  service:
+   name: nginx
+   state: restarted

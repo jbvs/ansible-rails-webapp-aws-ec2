@@ -1,0 +1,33 @@
+
+- name: Create deploy dir
+  file: path=/home/{{deploy_user}}/apps/{{ deploy_app_name }}  state=directory owner={{ deploy_user }} group={{ deploy_user }}
+
+- name: Checkout github App
+  git:
+   repo: "{{ github_repo }}"
+   dest: "/home/{{ deploy_user }}/apps/{{deploy_app_name }}"
+
+- name: Create directories
+  file:
+   path: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}/{{ item }}"
+   state: directory
+   owner: "{{ deploy_user }}"
+   group: "{{ deploy_user }}"
+  with_items: "{{ create_dirs }}"
+
+- name: Recursively change ownership of an app directory
+  file:
+   path: "/home/{{ deploy_user }}/apps/{{deploy_app_name }}"
+   state: directory
+   recurse: yes
+   owner: "{{ deploy_user }}"
+   group: "{{ deploy_user }}"
+
+- name: Change ownership of public directory app
+  file:
+   path: "/home/{{ deploy_user }}/apps/{{deploy_app_name }}/public"
+   state: directory
+   recurse: yes
+   owner: "{{ deploy_user }}"
+   group: "{{ deploy_group }}"
+   mode: '0750'

@@ -1,0 +1,79 @@
+- name: Create a binstub in app directory
+  become: true
+  become_user: "{{ deploy_user }}"
+  command: bash -lc "bundle binstubs puma --path ./sbin"
+  args:
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
+
+- name: Remove nginx default symlink
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Copy nginx config template file
+  template:
+    src=webapp-puma.conf
+    dest="/etc/nginx/sites-available"
+    owner=root
+    group=root
+    mode=0750
+
+- name: Create symlink inside sites-enabled
+  file:
+    src: /etc/nginx/sites-available/webapp-puma.conf
+    dest: /etc/nginx/sites-enabled/webapp-puma.conf
+    state: link
+    force: yes
+
+- name: Copy certificates to nginx - self signed public key
+  template:
+    src=nginx-selfsigned.crt
+    dest="/etc/ssl/certs"
+    owner=root
+    group=root
+    mode=0750
+   
+- name: Copy certificates to nginx - self signed private key
+  template:
+    src=nginx-selfsigned.key
+    dest="/etc/ssl/private"
+    owner=root
+    group=root
+    mode=0600
+
+- name: Copy puma.service file to systemd
+  template:
+    src=puma.service.tmpl
+    dest="/etc/systemd/system/puma.service"
+    owner=root
+    group=root
+    mode=0750
+
+- name: Copy puma.socket file to systemd
+  template:
+    src=puma.socket.tmpl
+    dest="/etc/systemd/system/puma.socket"
+    owner=root
+    group=root
+    mode=0750
+
+- name: Daemon reload systemd
+  systemd:
+    daemon_reload: yes    
+
+- name: Enable and start puma.socket
+  systemd:
+    name: puma.socket
+    state: started
+    enabled: yes
+
+- name: Enable and start puma.service
+  systemd:
+    name: puma.service
+    state: started
+    enabled: yes     
+
+- name: Reload service nginx
+  service:
+    name: nginx
+    state: restarted

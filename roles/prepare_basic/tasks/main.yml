@@ -1,0 +1,35 @@
+- name: Perform Safe Upgrade
+  apt: upgrade=safe update_cache=yes force_apt_get=yes
+
+- name: Add deployment user
+  user:
+    name: "{{ deploy_user }}"
+    password: "{{ deploy_passwd  | hash('512') }}"
+    shell: /bin/bash
+    state: present
+
+- name: Add authorized deploy keys
+  action: "authorized_key user={{ deploy_user }} key=\"{{ lookup('file', item) }}\""
+  with_items: '{{ ssh_public_key_files }}'
+
+- name: Remove sudo group rights
+  action: lineinfile dest=/etc/sudoers regexp="^%sudo" state=absent
+
+- name: Add deploy user to sudoers config
+  lineinfile:
+   path: /etc/sudoers
+   state: present
+   insertafter: 'root.+$'
+   line: "#ansible:\ndeploy ALL=(ALL) NOPASSWD: ALL\n"
+   validate: '/usr/sbin/visudo -cf %s'    
+
+- name: Disallow root SSH access
+  action: lineinfile dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+
+- name: Disallow password authentication
+  action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+
+- name: Restart SSH Server
+  service:
+   name: sshd
+   state: restarted

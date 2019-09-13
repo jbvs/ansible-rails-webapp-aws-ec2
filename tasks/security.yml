@@ -1,0 +1,30 @@
+---
+- name: Install ufw
+  apt:
+    name: "ufw"
+    force_apt_get: yes
+
+- name: Setup open ports
+  ufw: 
+    rule: allow
+    proto: tcp
+    port: '{{ item }}'
+  loop:
+    - ssh
+    - http
+    - https
+
+- name: Set default policy to deny and start firewall
+  tags: firewall
+  ufw:
+    policy: "deny"
+    state: "enabled"
+
+- name: Automated security updates
+  apt: name=unattended-upgrades state=present force_apt_get=yes
+
+- name: Install fail2ban
+  apt:
+    name: "fail2ban"
+    force_apt_get: yes
+

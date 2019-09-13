@@ -1,0 +1,38 @@
+---
+# AWS:
+# Keypair AWS Instance
+# key_pair_aws: !!! PUT YOUR KEY PAIR NAME HERE WITHOUT EXTENSION NAME!!!
+key_pair_aws: my_key_keypair
+aws_region: sa-east-1
+aws_instance_type: t2.micro
+aws_security_group: webservers_sg
+aws_image: ami-02a3447be1ec3a38f
+#
+# General settings
+deploy_app_name: webapp
+deploy_dir: /home/deploy/
+deploy_user: deploy
+deploy_passwd: 5tgb6yhn
+# group who runs passenger 
+deploy_group: www-data
+deploy_password: 4esz5rdx
+create_dirs:
+  - log
+  - tmp
+#
+# MySQL
+mysql_root_db_password: 1qaz2wsx
+mysql_app_db_password: 4esz5rdx
+#
+# Authorized Hosts
+# This copies your local public key to the remote machine
+# for passwordless login. Modify this!
+ssh_public_key_files:
+#  - /home/SET_YOUR_LOCAL_USERNAME_HERE/.ssh/id_rsa.pub
+  - /Users/juliano/.ssh/id_rsa.pub
+#
+# Ruby: RVM
+ruby_version: 'ruby-2.6.3'
+#
+# github: App Repo to deploy
+github_repo: 'https://github.com/jbvs/webapp.git'

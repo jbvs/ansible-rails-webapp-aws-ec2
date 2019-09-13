@@ -89,7 +89,8 @@ Modules to install on host machine that runs the playbooks
 - Edit ansible global configuration file ```group_vars\all```:
   - Adjust ```key_pair_aws``` with the name of key pair created without extension name.
   - Adjust ```ssh_public_key_files``` with full path of ssh private key.
-  ```
+
+```
 ---
 # AWS:
 # Keypair AWS Instance
@@ -128,7 +129,7 @@ ruby_version: 'ruby-2.6.3'
 #
 # github: App Repo to deploy
 github_repo: 'https://github.com/jbvs/webapp.git'
-  ```
+```
 
 ## Execute Playbook
 1. To create instance and configurations using playbook 1:

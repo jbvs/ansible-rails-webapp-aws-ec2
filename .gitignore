@@ -1,3 +1,7 @@
 .DS_Store
 /group_vars/all
 /ansible.cfg
+/aws_keys.yml
+/*.key
+/*.pub
+/*.pem

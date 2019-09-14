@@ -84,7 +84,10 @@ Modules to install on host machine that runs the playbooks
 
 	  Inside ```ansible-rails-webapp-aws-ec2``` main directory execute:
 
-	  ```$ ansible-vault create aws_keys.yml```
+	  ```
+    $ cd ansible-rails-webapp-aws-ec2
+    $ ansible-vault create aws_keys.yml
+    ```
 
 	  Edit and add the following to it:
 	
@@ -92,7 +95,9 @@ Modules to install on host machine that runs the playbooks
 	  aws_access_key: JKTVI6IM34O4VZJPT54X
 	  aws_secret_key: jWcFEU8vtf8ZEILVq3+zyZO+Z2JjzM1JjieoRZSz
 	  ```
+    
 	  Save the file all content will be encrypted.
+
 	  ```$ cat aws_keys.yml```
 
 - Create SSH key pair for authenticating ```deploy``` user.
@@ -156,21 +161,21 @@ github_repo: 'https://github.com/jbvs/webapp.git'
 ## Execute Playbook
 1. To create instance and configurations using playbook 1:
    ```
-   ansible-playbook -i hosts --ask-vault-pass aws_provisioning_solution1.yml
+   $ ansible-playbook -i hosts --ask-vault-pass aws_provisioning_solution1.yml
    Vault password:
    ```
    Type ansible vault password
 
 2. To create instance and configurations using playbook 2:
    ```
-   ansible-playbook -i hosts --ask-vault-pass aws_provisioning_solution2.yml
+   $ ansible-playbook -i hosts --ask-vault-pass aws_provisioning_solution2.yml
    Vault password:
    ```
    Type ansible vault password
 
 3. To destroy the instance (delete image):
    ```
-   ansible-playbook -i hosts --ask-vault-pass aws_destroy_ALL.yml
+   $ ansible-playbook -i hosts --ask-vault-pass aws_destroy_ALL.yml
    Vault password:
    ```
 

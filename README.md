@@ -29,19 +29,29 @@ The first playbook implements _Passenger_ that integrates with _Nginx_, allowing
 Modules to install on host machine that runs the playbooks 
 
 - Python 3.x
-	- Modules: ```boto``` and ```boto3```
+	- Modules: 
+  ```boto``` and ```boto3```
+
 	Install python modules with pip module manager:
+
 	```$ pip install boto boto3```
+
 	or
+
 	```$ pip3 install boto boto3```
 
 - Ansible 2.8
-    - Modules: ```rvm1-ansible```
+    - Modules: 
+    ```rvm1-ansible```
+
     Install ansible module:
+
     ```$ ansible-galaxy install rvm.ruby```
 
 - Rename template files
+
   Rename the following template files and adjust them as shown in the next topics:
+
   ```
   $ cd nsible-rails-webapp-aws-ec2
   $ mv ansible.cfg.template ansible.cfg
@@ -62,31 +72,43 @@ Modules to install on host machine that runs the playbooks
 	```
 
 - Save your key pair file in the same directory of ```ansible.cfg``` config file and set permitions:
-	- ```$ chmod 400 my_key_pair.pem```
+
+	```$ chmod 400 my_key_pair.pem```
 
 - Save your AWS keys (access and secret) from IAM account:
+
 	- How to create an AWS keys from [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access_keys.html#Using_CreateAccessKey) account
-	After create the AWS keys you may save ```.csv``` file. 
-	- Use Ansible Vault to security save sensitive data:
-	Inside ```ansible-rails-webapp-aws-ec2``` main directory execute:
-	```$ ansible-vault create aws_keys.yml```
-	Edit and add the following to it:
-	```
-	aws_access_key: JKTVI6IM34O4VZJPT54X
-	aws_secret_key: jWcFEU8vtf8ZEILVq3+zyZO+Z2JjzM1JjieoRZSz
-	```
-	Save the file all content will be encrypted.
-	```$ cat aws_keys.yml```
+	After create the AWS keys you may save ```.csv``` file.
+
+	- Use _Ansible Vault_ to security save sensitive data:
+
+	  Inside ```ansible-rails-webapp-aws-ec2``` main directory execute:
+
+	  ```$ ansible-vault create aws_keys.yml```
+
+	  Edit and add the following to it:
+	
+    ```
+	  aws_access_key: JKTVI6IM34O4VZJPT54X
+	  aws_secret_key: jWcFEU8vtf8ZEILVq3+zyZO+Z2JjzM1JjieoRZSz
+	  ```
+	  Save the file all content will be encrypted.
+	  ```$ cat aws_keys.yml```
 
 - Create SSH key pair for authenticating ```deploy``` user.
+
   This is useful when ansible is running to make the tasks and after for ssh logon passwordless.
-  ```ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"```
+
+  ```$ ssh-keygen -t rsa -b 4096 -C "your_email@domain.com"```
 
 - Add SSH private key to the ```ssh-agent```:
-  IMPORTANT: Very single playbook executation you must add SSH private key to the agent, because after, playbook creates the new instance and uses to connect through ssh with ```deploy```user. 
+
+  IMPORTANT: Very single playbook executation you must add SSH private key to the agent, because after, playbook creates the new instance and uses to connect through ssh with ```deploy```user.
+
   ```$ ssh-add```
 
 - Edit ansible global configuration file ```group_vars\all```:
+
   - Adjust ```key_pair_aws``` with the name of key pair created without extension name.
   - Adjust ```ssh_public_key_files``` with full path of ssh private key.
 
@@ -137,14 +159,14 @@ github_repo: 'https://github.com/jbvs/webapp.git'
    ansible-playbook -i hosts --ask-vault-pass aws_provisioning_solution1.yml
    Vault password:
    ```
-   type ansible vault password
+   Type ansible vault password
 
 2. To create instance and configurations using playbook 2:
    ```
    ansible-playbook -i hosts --ask-vault-pass aws_provisioning_solution2.yml
    Vault password:
    ```
-   type ansible vault password
+   Type ansible vault password
 
 3. To destroy the instance (delete image):
    ```
@@ -152,11 +174,15 @@ github_repo: 'https://github.com/jbvs/webapp.git'
    Vault password:
    ```
 
-Done!
-Access: 
+
+Now, access the new fresh AWS EC2 instances running RoR  
+
 ```http://<public_ip_address>``` or ```https://<public_ip_address>```
-```$ ssh deploy@<public_ip_address>```
-```$ sudo su -```
+
+```
+$ ssh deploy@<public_ip_address>
+$ sudo su -
+```
 
 ## Feedback
 Feel free to send feedback or report problems via GitHub.

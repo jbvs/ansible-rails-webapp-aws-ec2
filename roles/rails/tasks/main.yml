@@ -48,7 +48,7 @@
   become_user: "{{ deploy_user }}"
   command: bash -lc "RAILS_ENV=production bundle install --path vendor/cache"
   args:
-   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"    
+   chdir: "/home/{{ deploy_user }}/apps/{{ deploy_app_name }}"
 
 - name: Prepare Rails App Precompile assets
   become: true

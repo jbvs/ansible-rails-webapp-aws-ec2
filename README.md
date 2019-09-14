@@ -60,8 +60,9 @@ Modules to install on host machine that runs the playbooks
 
 - Edit ansible configuration file (```ansible.cfg```) and add the instance key pair
 
-	- How to create a key pair on [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
-	I tried to create the key pair automaticlly through the playbook, but showed some errors... :(
+	- How to create a key pair on [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html).
+
+	  I tried to create the key pair automaticlly through the playbook, but it showed some errors in python boto modules... :(
 
 	- Example, put the key pair name in ```ansible.cfg``` on ```private_key_file``` directive:
 

@@ -99,9 +99,10 @@ Modules to install on host machine that runs the playbooks
 	  aws_secret_key: jWcFEU8vtf8ZEILVq3+zyZO+Z2JjzM1JjieoRZSz
     ```
 	
-    Save the file all content will be encrypted.
+  
+  Save the file all content will be encrypted.
 	
-    ```$ cat aws_keys.yml```
+   ```$ cat aws_keys.yml```
 
 - Create SSH key pair for authenticating ```deploy``` user.
 

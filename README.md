@@ -59,9 +59,12 @@ Modules to install on host machine that runs the playbooks
   ```
 
 - Edit ansible configuration file (```ansible.cfg```) and add the instance key pair
+
 	- How to create a key pair on [AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
 	I tried to create the key pair automaticlly through the playbook, but showed some errors... :(
+
 	- Example, put the key pair name in ```ansible.cfg``` on ```private_key_file``` directive:
+
 	```
 	[defaults]
     #interpreter_python = auto_silent
@@ -84,7 +87,7 @@ Modules to install on host machine that runs the playbooks
 
 	  Inside ```ansible-rails-webapp-aws-ec2``` main directory execute:
 
-	  ```
+    ```
     $ cd ansible-rails-webapp-aws-ec2
     $ ansible-vault create aws_keys.yml
     ```
@@ -94,9 +97,9 @@ Modules to install on host machine that runs the playbooks
     ```
 	  aws_access_key: JKTVI6IM34O4VZJPT54X
 	  aws_secret_key: jWcFEU8vtf8ZEILVq3+zyZO+Z2JjzM1JjieoRZSz
-	  ```
-    
-	  Save the file all content will be encrypted.
+    ```
+	  
+    Save the file all content will be encrypted.
 
 	  ```$ cat aws_keys.yml```
 

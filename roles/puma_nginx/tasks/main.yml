@@ -1,6 +1,8 @@
 - name: Run apt-get update and upgrade
   apt:
-    upgrade: yes
+    upgrade: safe
+    autoclean: yes
+    autoremove: yes
     update_cache: yes
     force_apt_get: yes
     

@@ -175,7 +175,7 @@ github_repo: 'https://github.com/jbvs/webapp.git'
    ```
 
 
-Now, access the new fresh AWS EC2 instances running RoR  
+Now access the new fresh AWS EC2 instances running WebApp
 
 ```http://<public_ip_address>``` or ```https://<public_ip_address>```
 

@@ -1,3 +1,9 @@
+- name: Run apt-get update and upgrade
+  apt:
+    upgrade: yes
+    update_cache: yes
+    force_apt_get: yes
+    
 - name: Create a binstub in app directory
   become: true
   become_user: "{{ deploy_user }}"

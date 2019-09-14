@@ -14,16 +14,17 @@
    repo: deb https://oss-binaries.phusionpassenger.com/apt/passenger bionic main
    state: present
 
-- name: Run apt-get update
+- name: Run apt-get update and upgrade
   apt:
-   update_cache: yes
-   force_apt_get: yes
+    upgrade: yes
+    update_cache: yes
+    force_apt_get: yes
 
 - name: Install Passenger and Nginx module
   apt: name={{ packages }} state=latest update_cache=yes force_apt_get=yes
   vars:
    packages: ['libnginx-mod-http-passenger']
-
+  
 - name: Check if nginx file exists...
   stat: 
    path: /etc/nginx/modules-enabled/50-mod-http-passenger.conf

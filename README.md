@@ -197,4 +197,4 @@ $ sudo su -
 Feel free to send feedback or report problems via GitHub.
 
 ## License
-[MIT](https://en.wikipedia.org/wiki/MIT_License)
+[MIT](https://github.com/jbvs/ansible-rails-webapp-aws-ec2/blob/master/LICENSE)

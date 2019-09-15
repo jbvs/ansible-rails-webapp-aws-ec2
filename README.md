@@ -1,5 +1,5 @@
 # Ansible: Deploy Ruby on Rails (RoR) App on AWS EC2 Instance
-These playbooks create a new _AWS EC2 instance_ running _Ubuntu_ ```18.04``` with the same _RoR_ application with the following different settings (Passenger vs. Puma):
+These playbooks create a new _AWS EC2 instance_ running _Ubuntu_ ```18.04``` with the same _RoR_ application and the following different settings (Passenger vs. Puma):
 
 1. Playbook: ```aws_provisioning_solution1.yml```:
 

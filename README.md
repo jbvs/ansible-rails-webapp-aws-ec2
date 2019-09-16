@@ -83,8 +83,9 @@ Modules to install on host machine that runs the playbooks
 
 - Save your AWS keys (access and secret) from IAM account:
 
-	- How to create an AWS keys from [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access_keys.html#Using_CreateAccessKey) account
-	After create the AWS keys you may save ```.csv``` file.
+	- How to create an AWS keys from [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access_keys.html#Using_CreateAccessKey) account.
+
+	  After create the AWS keys you may save ```.csv``` file.
 
 	- Use _Ansible Vault_ to security save sensitive data:
 

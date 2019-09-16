@@ -95,15 +95,14 @@ Modules to install on host machine that runs the playbooks
     $ cd ansible-rails-webapp-aws-ec2
     $ ansible-vault create aws_keys.yml
     ```
-
-	  Edit and add the following to it:
-	
+    
+    Edit and add the following to it:
+    
     ```
 	  aws_access_key: JKTVI6IM34O4VZJPT54X
 	  aws_secret_key: jWcFEU8vtf8ZEILVq3+zyZO+Z2JjzM1JjieoRZSz
     ```
-	
-  
+    
     Save the file all content will be encrypted.
 	
     ```$ cat aws_keys.yml```

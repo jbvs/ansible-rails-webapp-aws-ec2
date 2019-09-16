@@ -124,7 +124,7 @@ Modules to install on host machine that runs the playbooks
   - Adjust ```key_pair_aws``` with the name of key pair created without extension name.
   - Adjust ```ssh_public_key_files``` with full path of ssh private key.
 
-```
+```yaml
 ---
 # AWS:
 # Keypair AWS Instance

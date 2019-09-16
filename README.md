@@ -89,14 +89,14 @@ Modules to install on host machine that runs the playbooks
 
 	- Use _Ansible Vault_ to security save sensitive data:
 
-   Inside ```ansible-rails-webapp-aws-ec2``` main directory execute:
+    Inside ```ansible-rails-webapp-aws-ec2``` main directory execute:
 
     ```
     $ cd ansible-rails-webapp-aws-ec2
     $ ansible-vault create aws_keys.yml
     ```
 
-	Edit and add the following to it:
+	  Edit and add the following to it:
 	
     ```
 	  aws_access_key: JKTVI6IM34O4VZJPT54X
@@ -104,9 +104,9 @@ Modules to install on host machine that runs the playbooks
     ```
 	
   
-  Save the file all content will be encrypted.
+    Save the file all content will be encrypted.
 	
-   ```$ cat aws_keys.yml```
+    ```$ cat aws_keys.yml```
 
 - Create SSH key pair for authenticating ```deploy``` user.
 
